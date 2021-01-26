@@ -1,0 +1,14 @@
+type Comment @model @key(name: "byPost", fields: ["postID"]) @auth(rules: [{allow: owner, operations: [update, delete, read, create]}, {allow: private, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, delete]}]) {
+  id: ID!
+  text: String!
+  author: String!
+  postID: ID!
+}
+
+type Post @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  title: String!
+  content: String!
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+ 
